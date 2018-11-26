@@ -6,27 +6,32 @@
 
 int main (int argc, char **argv)
 {
-
+	if (argc < 2)
+	{
+		fprintf(stderr, "Indique um ficheiro!\n");
+		exit(1);
+	}
+	
 	for (int i = 0; i < argc; i++)
 	{
 		printf("Parametro %d: %s\n", i, argv[i]);
 	}
 	
-	FILE *a = abreFicheiro(argv[1], "r");
-	char *b,
+	FILE *ficheiro = abreFicheiro(argv[1], "r");
+	char *palavra,
 		  biggest[128];
-	int counter 		= 0,
-		fileHasntEnded  = 1;
+	int   counter 		  = 0,
+		  fileHasntEnded  = 1;
 	do
 	{
-		b = lePalavra(a);
-		fileHasntEnded = !feof(a);
+		palavra = lePalavra(ficheiro);
+		fileHasntEnded = !feof(ficheiro);
 		if (fileHasntEnded)
 		{
 			if (counter == 0)
-				strcpy(biggest, b);
-			else if (strlen(b) > strlen(biggest))
-				strcpy(biggest, b);
+				strcpy(biggest, palavra);
+			else if (strlen(palavra) > strlen(biggest))
+				strcpy(biggest, palavra);
 			
 			counter++;
 		}
@@ -35,6 +40,7 @@ int main (int argc, char **argv)
 	
 	printf("Numero de palavras : %d", counter);
 	printf("\nPalavra maior : %s", biggest);
-        return 0;
+	fclose(ficheiro);
+    return 0;
 }
 
