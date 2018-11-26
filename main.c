@@ -13,7 +13,8 @@ int main (int argc, char **argv)
 	}
 	
 	FILE *a = abreFicheiro(argv[1], "r");
-	char *b;
+	char *b,
+		  biggest[128];
 	int counter 		= 0,
 		fileHasntEnded  = 1;
 	do
@@ -21,12 +22,19 @@ int main (int argc, char **argv)
 		b = lePalavra(a);
 		fileHasntEnded = !feof(a);
 		if (fileHasntEnded)
+		{
+			if (counter == 0)
+				strcpy(biggest, b);
+			else if (strlen(b) > strlen(biggest))
+				strcpy(biggest, b);
+			
 			counter++;
+		}
 	}
 	while (fileHasntEnded);
 	
 	printf("Numero de palavras : %d", counter);
-
+	printf("\nPalavra maior : %s", biggest);
         return 0;
 }
 
